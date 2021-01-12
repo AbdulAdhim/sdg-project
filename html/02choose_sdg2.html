@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <title>SDG Game: Select SDG</title>
+    <script src="../js/main.js" type='text/javascript'></script>
+    <script src="../js/choose_sdg.js" type='text/javascript'></script>
+</head>
+
+<body>
+    <br>
+    <h2 class="m-2">Sustainable Development Goals</h2>
+    <br>
+    <div class="card m-2">
+        <div class="card-header">
+            Select 1-3 SDG Goals you'd like to focus more 
+        </div>
+        <div class="card-deck">
+            <!-- Goal 1 -->
+            <div class="card-body">
+                <div class="card" style="width: 13rem;">
+                    <img id="sdg1" class="card-img-top" style="opacity: 0.5;" src="../assets/sdg1.png" alt="sdg1">
+                    <div class="card-body">
+                        <a id='selectButtonG1' href="#" class="btn btn-success" onclick=selectGoal('1')>Select</a>
+                        <a href="#" class="btn btn-light" data-toggle="modal" data-target="#exampleModalCenter">More</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+                aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">Goal 1: End poverty in all its forms everywhere</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <img class="rounded mx-auto d-block"  style="width:30%" src="../media/g1.jpg" alt="g1">
+                            <br>
+                            <p>Globally, the number of people living in extreme poverty declined from 36 per cent in 1990 to 10 per cent in 2015. But the pace of change is decelerating and the COVID-19 crisis risks reversing decades of progress in the fight against poverty. New research published by the UNU World Institute for Development Economics Research warns that the economic fallout from the global pandemic could increase global poverty by as much as half a billion people, or 8% of the total human population. This would be the first time that poverty has increased globally in thirty years, since 1990.</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Goal 2 -->
+            <div class="card-body">
+                <div class="card" style="width: 13rem;">
+                    <img id="sdg2" class="card-img-top" style="opacity: 0.5;" src="../assets/sdg2.png" alt="sdg2">
+                    <div class="card-body">
+                        <a href="#" id='selectButtonG2' class="btn btn-success" onclick=selectGoal('2')>Select</a>
+                        <a href="#" class="btn btn-light" data-toggle="modal" data-target="#exampleModalCenter">More</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Goal 3 -->
+            <div class="card-body">
+                <div class="card" style="width: 13rem;">
+                    <img id="sdg3" class="card-img-top" style="opacity: 0.5;" src="../assets/sdg3.png" alt="sdg3">
+                    <div class="card-body">
+                        <a href="#" id='selectButtonG3' class="btn btn-success" onclick=selectGoal('3')>Select</a>
+                        <a href="#" class="btn btn-light" data-toggle="modal" data-target="#exampleModalCenter">More</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Goal 4 -->
+            <div class="card-body">
+                <div class="card" style="width: 13rem;">
+                    <img id="sdg4" class="card-img-top" style="opacity: 0.5;" src="../assets/sdg4.png" alt="sdg4">
+                    <div class="card-body">
+                        <a href="#" id='selectButtonG4' class="btn btn-success" onclick=selectGoal('4')>Select</a>
+                        <a href="#" class="btn btn-light" data-toggle="modal" data-target="#exampleModalCenter">More</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Goal 5 -->
+            <div class="card-body">
+                <div class="card" style="width: 13rem;">
+                    <img id="sdg5" class="card-img-top" style="opacity: 0.5;" src="../assets/sdg5.png" alt="sdg5">
+                    <div class="card-body">
+                        <a href="#" id='selectButtonG5' class="btn btn-success" onclick=selectGoal('5')>Select</a>
+                        <a href="#" class="btn btn-light" data-toggle="modal" data-target="#exampleModalCenter">More</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Goal 6 -->
+            <div class="card-body">
+                <div class="card" style="width: 13rem;">
+                    <img id="sdg6" class="card-img-top" style="opacity: 0.5;" src="../assets/sdg6.png" alt="sdg6">
+                    <div class="card-body">
+                        <a href="#" id='selectButtonG6' class="btn btn-success" onclick=selectGoal('6')>Select</a>
+                        <a href="#" class="btn btn-light" data-toggle="modal" data-target="#exampleModalCenter">More</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Goal 7 -->
+            <div class="card-body">
+                <div class="card" style="width: 13rem;">
+                    <img id="sdg7" class="card-img-top" style="opacity: 0.5;" src="../assets/sdg7.png" alt="sdg7">
+                    <div class="card-body">
+                        <a href="#" id='selectButtonG7' class="btn btn-success" onclick=selectGoal('7')>Select</a>
+                        <a href="#" class="btn btn-light" data-toggle="modal" data-target="#exampleModalCenter">More</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Goal 8 -->
+            <div class="card-body">
+                <div class="card" style="width: 13rem;">
+                    <img id="sdg8" class="card-img-top" style="opacity: 0.5;" src="../assets/sdg8.png" alt="sdg8">
+                    <div class="card-body">
+                        <a href="#" id='selectButtonG8' class="btn btn-success" onclick=selectGoal('8')>Select</a>
+                        <a href="#" class="btn btn-light" data-toggle="modal" data-target="#exampleModalCenter">More</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Goal 9 -->
+            <div class="card-body">
+                <div class="card" style="width: 13rem;">
+                    <img id="sdg9" class="card-img-top" style="opacity: 0.5;" src="../assets/sdg9.png" alt="sdg9">
+                    <div class="card-body">
+                        <a href="#" id='selectButtonG9' class="btn btn-success" onclick=selectGoal('9')>Select</a>
+                        <a href="#" class="btn btn-light" data-toggle="modal" data-target="#exampleModalCenter">More</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Goal 10 -->
+            <div class="card-body">
+                <div class="card" style="width: 13rem;">
+                    <img id="sdg10" class="card-img-top" style="opacity: 0.5;" src="../assets/sdg10.png" alt="sdg10">
+                    <div class="card-body">
+                        <a href="#" id='selectButtonG10' class="btn btn-success" onclick=selectGoal('10')>Select</a>
+                        <a href="#" class="btn btn-light" data-toggle="modal" data-target="#exampleModalCenter">More</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Goal 11 -->
+            <div class="card-body">
+                <div class="card" style="width: 13rem;">
+                    <img id="sdg11" class="card-img-top" style="opacity: 0.5;" src="../assets/sdg11.png" alt="sdg11">
+                    <div class="card-body">
+                        <a href="#" id='selectButtonG11' class="btn btn-success" onclick=selectGoal('11')>Select</a>
+                        <a href="#" class="btn btn-light" data-toggle="modal" data-target="#exampleModalCenter">More</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Goal 12 -->
+            <div class="card-body">
+                <div class="card" style="width: 13rem;">
+                    <img id="sdg12" class="card-img-top" style="opacity: 0.5;" src="../assets/sdg12.png" alt="sdg12">
+                    <div class="card-body">
+                        <a href="#" id='selectButtonG12' class="btn btn-success" onclick=selectGoal('12')>Select</a>
+                        <a href="#" class="btn btn-light" data-toggle="modal" data-target="#exampleModalCenter">More</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Goal 13 -->
+            <div class="card-body">
+                <div class="card" style="width: 13rem;">
+                    <img id="sdg13" class="card-img-top" style="opacity: 0.5;" src="../assets/sdg13.png" alt="sdg13">
+                    <div class="card-body">
+                        <a href="#" id='selectButtonG13' class="btn btn-success" onclick=selectGoal('13')>Select</a>
+                        <a href="#" class="btn btn-light" data-toggle="modal" data-target="#exampleModalCenter">More</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Goal 14 -->
+            <div class="card-body">
+                <div class="card" style="width: 13rem;">
+                    <img id="sdg14" class="card-img-top" style="opacity: 0.5;" src="../assets/sdg14.png" alt="sdg14">
+                    <div class="card-body">
+                        <a href="#" id='selectButtonG14' class="btn btn-success" onclick=selectGoal('14')>Select</a>
+                        <a href="#" class="btn btn-light" data-toggle="modal" data-target="#exampleModalCenter">More</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Goal 15 -->
+            <div class="card-body">
+                <div class="card" style="width: 13rem;">
+                    <img id="sdg15" class="card-img-top" style="opacity: 0.5;" src="../assets/sdg15.png" alt="sdg15">
+                    <div class="card-body">
+                        <a href="#" id='selectButtonG15' class="btn btn-success" onclick=selectGoal('15')>Select</a>
+                        <a href="#" class="btn btn-light" data-toggle="modal" data-target="#exampleModalCenter">More</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Goal 16 -->
+            <div class="card-body">
+                <div class="card" style="width: 13rem;">
+                    <img id="sdg16" class="card-img-top" style="opacity: 0.5;" src="../assets/sdg16.png" alt="sdg16">
+                    <div class="card-body">
+                        <a href="#" id='selectButtonG16' class="btn btn-success" onclick=selectGoal('16')>Select</a>
+                        <a href="#" class="btn btn-light" data-toggle="modal" data-target="#exampleModalCenter">More</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Goal 17 -->
+            <div class="card-body">
+                <div class="card" style="width: 13rem;">
+                    <img id="sdg17" class="card-img-top" style="opacity: 0.5;" src="../assets/sdg17.png" alt="sdg17">
+                    <div class="card-body">
+                        <a href="#" id='selectButtonG17' class="btn btn-success" onclick=selectGoal('17')>Select</a>
+                        <a href="#" class="btn btn-light" data-toggle="modal" data-target="#exampleModalCenter">More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12 text-right">
+        <button type="button" class="btn btn-warning" onclick=pageRedirect('./03how_to_play.html')>Next</button>
+    </div>
+    <br>
+
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
+    </script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
+    </script>
+</body>
+
+</html>

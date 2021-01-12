@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+</head>
+
+<body>
+    <script src="http://localhost:3000/socket.io/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="../js/invest_febe.js"></script>
+
+    <script>
+        const token = 'fakeAuthToken-sendLoginRequestToGet';
+        var socket = io(
+                'http://localhost:3000', 
+                {query: {token}}
+            );
+        var userId;
+        
+            // socket.emit('sendGlobalChatMessage', 'test_reload');
+
+            // socket.emit('getCurrentStatus');
+
+            socket.on('userInfo', function (userInfo) {
+                console.log(userInfo.id);
+                userId = userInfo.id;
+            });
+
+            function invest(investId) {
+                socket.emit('invest', investId);
+            }
+
+            function createRoom() {
+                socket.emit('createNewRoom');
+            }
+            var roomCode;
+            function joinRoom (){
+                roomCode = document.getElementById("room").value;
+                console.log(roomCode);
+                console.log('clicked join ' + roomCode);
+                socket.emit('joinRoom', roomCode);
+            }
+
+            function leaveRoom() {
+                console.log("leaving room " + roomCode);
+                socket.emit('leaveRoom');
+            }
+
+            function ready() {
+                console.log("ready to join " + roomCode);
+                socket.emit('ready');
+            }
+
+            function notReady() {
+                console.log("cancelling join " + roomCode);
+                socket.emit('notReady');
+            }
+
+            socket.on('roomStat', function (roomStat) {
+                console.log(`GAME ${roomStat.code} STATUS at ${new Date()}`)
+                roomStat.gameStatus.forEach(userStat => {
+                    console.log(`id: ${userStat.user.id}, name: ${userStat.user.name}`)
+                    console.log(`.... money: ${userStat.status.money}, income: ${userStat.status.income}`)
+                    console.log(`.... society: ${userStat.status.society}, environment: ${userStat.status.environment}`)
+                    console.log(`.... society: ${userStat.status.economy}, invested: ${userStat.status.invested}`)
+                });
+                console.log(roomStat)
+
+                roomStat.gameStatus.forEach(userStat => {
+                    if(userStat.user.id == userId){
+                        p1_econSI = document.getElementById('p1_econSI');
+                        p1_socSI = document.getElementById('p1_socSI');
+                        p1_envSI = document.getElementById('p1_envSI');
+                        p1_moneyI = document.getElementById('p1_moneyI');
+
+                        p1_econSI.innerHTML = userStat.status.economy;
+                        p1_socSI.innerHTML = userStat.status.environment;
+                        p1_envSI.innerHTML = userStat.status.society;
+                        p1_moneyI.innerHTML = userStat.status.money;
+                    }
+                });
+
+
+
+
+
+
+            });
+
+            // socket.on('investConfirmation', function (inv_id){
+            //     inv_name = investments[inv_id].name;
+            //     elem = document.getElementById('someID');
+            //     elem.innerHTML = 'You have invested in' + inv_name;
+            // })
+
+            socket.on('eventOccur', function(event){
+                console.log('Event', event);
+            })
+
+            // socket.on('getCurrentStatus', function(){
+                p1_econSI = document.getElementById('p1_econSI');
+                p1_socSI = document.getElementById('p1_socSI');
+                p1_envSI = document.getElementById('p1_envSI');
+                p1_moneyI = document.getElementById('p1_moneyI');
+
+                p1_econSI.innerHTML = roomStat.gameStatus[0].status.economy;
+                p1_socSI.innerHTML = roomStat.gameStatus[0].status.environment;
+                p1_envSI.innerHTML = roomStat.gameStatus[0].status.society;
+                p1_moneyI.innerHTML = roomStat.gameStatus[0].status.money;
+            // })
+
+    </script>
+
+    <button> Test </button>
+
+        <label for="fname">Room code:</label>
+        <input type="text" id="room">
+        <button onclick=createRoom()>Create room</button>
+        <button onclick=joinRoom()>Join</button>
+        <button onclick=leaveRoom()>Leave</button>
+        <br>
+        <button onclick=ready()>Ready</button>
+        <button onclick=notReady()>Cancel</button>
+
+        <button onclick=invest(0)>invest 1</button>
+        <button onclick=invest(1)>invest 2</button>
+        <button onclick=invest(2)>invest 3</button>
+        <button onclick=invest(3)>invest 4</button>
+        <button onclick=invest(4)>invest 5</button>
+        <button onclick=invest(5)>invest 6</button>
+        <button onclick=invest(6)>invest 7</button>
+        <button onclick=invest(7)>invest 8</button>
+
+
+        <!-- FE Testing: Show User Game Status -->
+        <div>
+            <p>Show Sustainable Index</p>
+            <p>User 1</p>
+            <ul>
+                <li>Economy: <span id='p1_econSI'></span></li>
+                <li>Society: <span id='p1_socSI'></span></li>
+                <li>Environment: <span id='p1_envSI'></span></li>
+            </ul>
+            <p>Show Money</p>
+            <p>Money: <span id='p1_moneyI'></span></p>
+
+            
+            <p>User 2</p>
+            <ul>
+                <li>Economy: <span id='p2_econSI'></span></li>
+                <li>Society: <span id='p2_socSI'></span></li>
+                <li>Environment: <span id='p2_envSI'></span></li>
+            </ul>
+            <p>Show Money</p>
+            <p>Money: <span id='p2_moneyI'></span></p>
+
+
+            <p>User 3</p>
+            <ul>
+                <li>Economy: <span id='p3_econSI'></span></li>
+                <li>Society: <span id='p3_socSI'></span></li>
+                <li>Environment: <span id='p3_envSI'></span></li>
+            </ul>
+            <p>Show Money</p>
+            <p>Money: <span id='p3_moneyI'></span></p>
+        </div>
+
+
+
+
+        
+</body>
+
+</html>

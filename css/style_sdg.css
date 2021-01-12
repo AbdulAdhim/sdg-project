@@ -1,0 +1,76 @@
+body{
+    background-color: black;
+}
+h1{
+    color: whitesmoke;
+    top: 50%;
+    text-align: center;
+    font-size: 80px;
+}
+.polaroid {
+
+    top: 50%;
+    left: 50%;
+    width: 150px;
+    margin-left: 75px;
+	padding: 10px 10px 20px 10px;
+	border: 1px solid #BFBFBF;
+	background-color: white;
+	-webkit-box-shadow: 2px 2px 3px rgba(135, 139, 144, 0.4);
+	-moz-box-shadow: 2px 2px 3px rgba(135, 139, 144, 0.4);
+    box-shadow: 2px 2px 3px rgba(135, 139, 144, 0.4);
+    -webkit-transform: rotate(9deg);
+    -moz-transform: rotate(9deg);
+    transform: rotate(9deg);
+    
+}
+
+img.avatar{
+    width: 100%;
+
+}
+.ok {	
+    float: right;
+    width: 250px;
+    padding: 10px 10px 20px 10px;
+	border: 1px solid #BFBFBF;
+	background-color: white;
+	-webkit-box-shadow: 2px 2px 3px rgba(135, 139, 144, 0.4);
+	-moz-box-shadow: 2px 2px 3px rgba(135, 139, 144, 0.4);
+    box-shadow: 2px 2px 3px rgba(135, 139, 144, 0.4);
+    -webkit-transform: rotate(20deg);
+    -moz-transform: rotate(20deg);
+    transform: rotate(20deg);
+
+}
+.ok1 {	
+    width: 200px;
+    float: right 100px;
+	padding: 10px 10px 20px 10px;
+	border: 1px solid #BFBFBF;
+	background-color: white;
+	-webkit-box-shadow: 2px 2px 3px rgba(135, 139, 144, 0.4);
+	-moz-box-shadow: 2px 2px 3px rgba(135, 139, 144, 0.4);
+    box-shadow: 2px 2px 3px rgba(135, 139, 144, 0.4);
+    -webkit-transform: rotate(30deg);
+    -moz-transform: rotate(30deg);
+    transform: rotate(30deg);
+
+}
+.ok2 {	
+    width: 300px;
+    float: right;
+	padding: 10px 10px 20px 10px;
+	border: 1px solid #BFBFBF;
+	background-color: white;
+	-webkit-box-shadow: 2px 2px 3px rgba(135, 139, 144, 0.4);
+	-moz-box-shadow: 2px 2px 3px rgba(135, 139, 144, 0.4);
+    box-shadow: 2px 2px 3px rgba(135, 139, 144, 0.4);
+    -webkit-transform: rotate(10deg);
+    -moz-transform: rotate(10deg);
+    transform: rotate(10deg);
+
+}
+img:hover{
+    background-color: cornsilk;
+}

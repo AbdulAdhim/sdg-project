@@ -1,0 +1,171 @@
+@import url('https://fonts.googleapis.com/css2?family=Major+Mono+Display&family=Montserrat&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+html, body { 
+    margin: 0; 
+    padding: 16px; 
+    width: 100%; 
+    height: 100%;
+}
+
+#mainscreenbg {
+    height: 0%;
+    width: 100%;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    background-color: rgb(0,0,0);
+    overflow: hidden;
+    transition: 0.5s; /* 0.5 second transition effect to slide in or slide down the overlay (height or width, depending on reveal) */
+}
+
+#lastscreenbg {
+    height: 0%;
+    width: 100%;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    background-color:black;
+    overflow: hidden;
+    transition: 0.5s; /* 0.5 second transition effect to slide in or slide down the overlay (height or width, depending on reveal) */
+}
+
+.vhcenter {
+    text-align: center;
+    position: relative;
+    top: 40vh;
+}
+
+.padspace {
+    padding: 16px;
+}
+
+.rbottom {
+    text-align: right;
+    position: relative;
+    top: 75vh;
+}
+
+.blink {
+    animation: blinker 1.5s linear infinite;
+}
+
+
+@keyframes blinker {
+    50% {
+        opacity: 0;
+    }
+}
+
+#start_des {
+    font-family: 'Montserrat', sans-serif;
+    margin-top: 13px;
+}
+
+#timer {
+    text-align: center;
+    font-family: 'VT323', monospace;
+    font-size: 80px;
+    color:red;
+}
+
+.list {
+    font-family: 'VT323', monospace;
+    color:lawngreen;
+    font-size: 25px;
+}
+
+.yellow_list {
+    font-family: 'VT323', monospace;
+    color: yellow;
+    font-size: 25px;
+}
+
+ul {
+    list-style-type: none;
+}
+
+nav ul{height:350px; width:100%;}
+nav ul{
+    overflow:hidden; 
+    overflow-y:scroll;
+}
+
+/* width */
+::-webkit-scrollbar {
+width: 20px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+background: #535353;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+background: rgb(51, 51, 51);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+background: rgb(63, 63, 63);
+}
+
+.rainbow_font {
+    font-family: 'VT323', monospace;
+    font-size: 80px;
+    animation: rainbow 3s infinite;
+}
+
+.rainbow_font2 {
+    font-family: 'VT323', monospace;
+    font-size: 80px;
+    animation: rainbow2 8s infinite;
+}
+
+@keyframes rainbow{
+    0%{color: orange;}	
+    10%{color: purple;}	
+    20%{color: red;}
+    30%{color: CadetBlue;}
+    40%{color: yellow;}
+    50%{color: lawngreen;}
+    60%{color: green;}
+    70%{color: cyan;}
+    80%{color: DeepPink;}
+    90%{color: DodgerBlue;}
+    100%{color: orange;}
+}
+
+@keyframes rainbow2{
+    0%{color: orange;}	
+    10%{color: purple;}	
+    20%{color: red;}
+    30%{color: CadetBlue;}
+    40%{color: black;}
+    50%{color: black;}
+    60%{color: green;}
+    70%{color: cyan;}
+    80%{color: DeepPink;}
+    90%{color: DodgerBlue;}
+    100%{color: orange;}
+}
+
+.title_text {
+    font-family: 'VT323', monospace;
+    font-size: 30px;
+}
+
+.normal_text {
+    font-family: 'VT323', monospace;
+    font-size: 20px;
+}
+
+.si_text {
+    font-family: 'VT323', monospace;
+    font-size: 20px;
+    color: black;
+}
+

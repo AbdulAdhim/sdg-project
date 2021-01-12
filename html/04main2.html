@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="action.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>SDG Game: Game Main Screen</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script src="../js/main.js" type='text/javascript'></script>
+    <script src="../js/invest.js"></script>
+
+</head>
+
+<body onload=initialScreen()>
+    <br>
+    <h2 class="m-2">Main Screen</h2>
+    <br>
+    <div class="card-group m-2">
+        <div class="card">
+            <h5 class="card-header"> Game screen</h5>
+            <div class="card-body d-flex flex-column">
+                <pre id='screen_text' style="font-size: large;"></pre>
+
+                <!-- Modal for Random Event-->
+                <div class="modal fade " id="RandomEventModal" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalCenterTitle" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLongTitle">🚨 Oh no! We have a problem! 🚨</h5>
+                            </div>
+                            <div class="modal-body" id="re_content">
+                                <h5 id='re_title'></h5>
+                                <p id='re_des'></p>
+
+                                <p><strong> Decision 1: <span id='re_dcs1'></span></strong></p>
+                                <ul>
+                                    <li>Time: <span id='re_dcs1_timecost'></span></li>
+                                    <li>Money: <span id='re_dcs1_moneycost'></span></li>
+                                </ul>
+
+                                <p><strong>Decision 2: <span id='re_dcs2'></span></strong></p>
+                                <ul>
+                                    <li>Time: <span id='re_dcs2_timecost'></span></li>
+                                    <li>Money: <span id='re_dcs2_moneycost'></span></li>
+                                </ul>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick=effectOfRandomEvent(1)>Decision 1</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick=effectOfRandomEvent(2)>Decision 2</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-footer text-muted">
+                <h5 class="card-title">Investment</h5>
+
+                    <div class="card-body">
+                        <div ng-app="gameInvestment" ng-controller="gameInvestmentCtrl">
+                            <button id={{investItem.id}} onclick=triggerInvestmentModal(this.id) ng-repeat="investItem in investmentList" class="btn btn-primary" style="border-radius: 25px;">{{investItem.name}}</button>
+                        </div>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="InvestmentModal" tabindex="-1" role="dialog"
+                            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="inv_title">Investment #1: Public Transportation</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p id='inv_des'></p>
+                                        <ul>
+                                            <li>Cost: </li>
+                                            <ul>
+                                                <li>Time: <span id='cost_time'></span></li>
+                                                <li>Money: <span id='cost_money'></span></li>
+                                            </ul>
+
+                                            <li>Changes in Sustainable Index:</li>
+                                            <ul>
+                                                <li>Economy +<span id='reward_econ'>5</span></li>
+                                                <li>Environment +<span id='reward_env'>7</span></li>
+                                                <li>Society +<span id='reward_society'>3</span></li>
+                                            </ul>
+                                            <li>Rewards:</li>
+                                            <ul>
+                                                <li>Money +<span id='reward_money'>300</span></li>
+                                                <li>Time +<span id='reward_time'>10</span></li>
+                                            </ul>
+                                        </ul>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-success" id='invest_button' data-dismiss="modal">Invest!</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+        <div class="card text-center col-sm-4">
+            <div class="card-header">
+                Sustainable Index
+            </div>
+            <div class="card-body">
+                <p>Economy</p>
+                <div class="progress">
+                    <div class="progress-bar bg-success" role="progressbar" style="width: 75%" aria-valuenow="75"
+                        aria-valuemin="0" aria-valuemax="100" id="econ_index">75</div>
+                </div>
+                <br>
+                <p>Environment</p>
+                <div class="progress">
+                    <div class="progress-bar bg-warning" role="progressbar" style="width: 70%" aria-valuenow="75"
+                        aria-valuemin="0" aria-valuemax="100" id="env_index">70</div>
+                </div>
+                <br>
+                <p>Society</p>
+                <div class="progress">
+                    <div class="progress-bar bg-danger" role="progressbar" style="width: 70%" aria-valuenow="75"
+                        aria-valuemin="0" aria-valuemax="100" id="society_index">70</div>
+                </div>
+                <br>
+                <h5>Time: <span id="Time">1000</span> points</h5>
+                <h5>Money: <span id="Money">3000</span> points</h5>
+            </div>
+        </div>
+    </div>
+
+    <br>
+    <div class="card m-2">
+        <h5 class="card-header">Your Timeline</h5>
+        <div class="card-body text-secondary">
+            <div class="progress">
+                <div id="timeline_bar" class="progress-bar" role="progressbar" aria-valuemin="2020" aria-valuemax="2030"
+                    style="width:0%; background-color:rgb(146, 146, 146) !important;">
+                </div>
+            </div>
+            <h5 style="float: left;">2020</h5>
+            <h5 style="float: right;">2030</h5>
+            <h5 style="text-align: center;">2025</h5>
+        </div>
+    </div>
+
+    <div class="text-right">
+        <button type="button" class="btn btn-outline-danger btn-sm" style="margin-right: 10px;" onclick=pageRedirect('./05end.html')>Quit Game</button>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
+    </script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
+    </script>
+</body>
+
+</html>

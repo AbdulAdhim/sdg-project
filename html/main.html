@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Main Screen</title>
+    <script src="../js/main.js" type='text/javascript'></script>
+    <link rel="stylesheet" href="../css/style_main.css">
+</head>
+<body>
+    <h1>SDG</h1>
+    <p>Time: <span id="Time">1000</span></p>
+    <p>Money: <span id="Money">1000</span></p>
+    <p>Sustainable Index</p>
+    <ul>
+        <li>Economy: <span id="econ_index">80</span></li>
+        <li>Environment: <span id="env_index">80</span></li>
+        <li>Society: <span id="society_index">80</span></li>
+    </ul>
+
+    <p>Testing JS</p>
+    <button onclick="addTime()">Add Time</button>
+
+    <h3>Testing Actions</h3>
+    <ul>
+        <li>Invest in public transportation</li>
+        <li>Time points: -<span id='cost_time'>30</span></li>
+        <li>Money: -<span id='cost_money'>100</span></li>
+        <li>Rewards:</li>
+        <ul>
+            <li>Economy +<span id='reward_econ'>5</span></li>
+            <li>Environment +<span id='reward_env'>10</span></li>
+            <li>Society +<span id='reward_society'>5</span></li>
+            <li>Money +<span id='reward_money'>300</span></li>
+            <li>Time +<span id='reward_time'>10</span></li>
+        </ul>
+        <button onclick="investProject()">Invest</button>
+    </ul>
+    
+</body>
+</html>

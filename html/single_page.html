@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The SDG Game</title>
+
+    <!-- CSS & Bootstrap -->
+    <link rel="stylesheet" href="../css/style_spage.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="../css/style_wlc.css">
+
+    <!-- Angular & JS-->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+
+    <!-- Socket.io-->
+    <script src="http://localhost:3000/socket.io/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script>
+        const token = 'fakeAuthToken-sendLoginRequestToGet';
+        var socket = io(
+            'http://localhost:3000', {
+                query: {
+                    token
+                }
+            }
+        );
+        
+    </script>
+    <script src="../js/create_join_ready.js" type='text/javascript'></script>
+    <script src="../js/player_stat.js" type='text/javascript'></script>
+    <script src="../js/invest.js" type='text/javascript'></script>
+    <script src="../js/event.js" type='text/javascript'></script>
+</head>
+
+<body id="bodyclick">
+    <script>
+        var pastInvestment;
+
+        socket.on('investConfirmation', function(inv_id) {
+            iname = investments[inv_id].name;
+            itime = investments[inv_id].time; 
+            msg = 'Investing in ' + iname;
+            handleNewMessage(msg, event=false, blinking=true, time=itime);
+        })
+
+        socket.on('investCompletedConfirmation', function(inv_id) {
+            iname = investments[inv_id].name;
+            msg = "... Done investing in " + iname;
+            handleNewMessage(msg);
+        })
+
+        socket.on('roomStat', function (roomStat) {
+            roomStat.gameStatus.forEach(userStat => {
+                pastInvestment = userStat.status.invested;
+            });            
+        }); 
+        socket.on('eventOccur', function (eventOccur) {
+            // console.log('event:',  eventOccur)
+            eventName = eventOccur.name;
+            eventDes = '... ' + eventOccur.description;
+            // eventAffect = eventOccur.affect;
+            handleNewMessage(eventName, event=true);
+            handleNewMessage(eventDes, event=true);
+            // document.getElementById('event_name').innerHTML = eventName;
+            // document.getElementById('event_des').innerHTML = eventDes;
+            // document.getElementById('event_affect').innerHTML = eventAffect;
+        });
+
+    
+        function makeInvestment(inv_id){
+            socket.emit('invest', inv_id);
+            console.log('Investment' + inv_id + 'is clicked');
+            // removeFromShowingList(inv_id);
+        };
+    
+        function handleNewMessage(msg, event, blinking = false, time){
+            if (event) {
+                $('#messages').append($('<li style="color:red">').text("> " + msg));
+            } else {
+                if(blinking){
+                $('#messages').append($(`<li style="animation: blinker 1s linear ${time}">`).text("> " + msg));
+                } else {
+                $('#messages').append($('<li>').text("> " + msg));
+                }
+            }
+            
+        }
+
+        function updateScroll(){
+            element = document.getElementById("messages");
+            element.scrollTop = element.scrollHeight;
+        }
+
+        setInterval(updateScroll, 1000);
+
+        function getAllInvestedName() {
+            for (i in pastInvestment) {
+                msg2 = investments[pastInvestment[i]].name;
+                $('#invested').append($('<li class="yellow_list">').text("> " + msg2));
+            }
+        }
+
+    </script>
+
+    <!-- Last Screen -->
+    <div id='lastscreenbg'>
+        <div class="padspace">
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <button class="btn btn-outline-dark btn-sm" onclick="quitLastScreen()">Back to Homepage</button>
+            </div>
+            <h1 style="text-align: center;" class="rainbow_font">TIME IS UP, Well done!</h1>
+            <br>
+            <div class="card-group m-2">
+                <div class="card text-white mb-3" style="background-color:rgb(20, 20, 20);">
+                    <div class="card-header title_text">Let's see what you have invested during the game</div>
+                    <div class="card-body">
+                        <ul id='invested'></ul>
+                    </div>
+                    <button onclick="window.open('https://sdgs.un.org/goals')" class="btn btn-success">Learn More About SDGs</button>
+                    
+                </div>
+                <div class="card text-white mb-3" style="background-color:rgb(20, 20, 20);">
+                    <div class="card-header title_text">Your final Sustainable Index & How's Others did</div>
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col-7">
+                                <!-- Game Status -->
+                                <div class="card-body">
+                                    <!-- Economy Index -->
+                                    <div class="row align-items-center">
+                                        <h4 class="col-2">💰</h4>
+                                        <div class="col-10">
+                                            <div class="progress">
+                                                <div class="progress-bar si_text bg-warning si_text" role="progressbar" style="width: 75%"
+                                                    aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" id="p1_econSI_final">75
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Environment Index -->
+                                    <div class="row align-items-center">
+                                        <h4 class="col-2">🌳</h4>
+                                        <div class="col-10">
+                                            <div class="progress">
+                                                <div class="progress-bar si_text bg-success si_text" role="progressbar" style="width: 70%"
+                                                    aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" id="p1_envSI_final">70
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Society Index -->
+                                    <div class="row align-items-center">
+                                        <h4 class="col-2">👪</h4>
+                                        <div class="col-10">
+                                            <div class="progress">
+                                                <div class="progress-bar si_text bg-danger si_text" role="progressbar" style="width: 70%"
+                                                    aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" id="p1_socSI_final">
+                                                    70</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-5">
+                                <div class="card-body">
+                                    <!-- Player 2 -->
+                                    <div class="col-sm">
+                                        <!-- Economy Index -->
+                                        <div class="row align-items-center">
+                                            <p class="col-2">💰</p>
+                                            <div class="col-10">
+                                                <div class="progress">
+                                                    <div class="progress-bar si_text bg-warning" role="progressbar" style="width: 75%"
+                                                        aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" id="others1_econSI_final">75
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Environment Index -->
+                                        <div class="row align-items-center">
+                                            <p class="col-2">🌳</p>
+                                            <div class="col-10">
+                                                <div class="progress">
+                                                    <div class="progress-bar si_text bg-success" role="progressbar" style="width: 70%"
+                                                        aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" id="others1_envSI_final">70
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Society Index -->
+                                        <div class="row align-items-center">
+                                            <p class="col-2">👪</p>
+                                            <div class="col-10">
+                                                <div class="progress">
+                                                    <div class="progress-bar si_text bg-danger" role="progressbar" style="width: 70%"
+                                                        aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" id="others1_socSI_final">70
+                                                        </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <!-- Player 3 -->
+                                    <div class="col-sm">
+                                        <!-- Economy Index -->
+                                        <div class="row align-items-center">
+                                            <p class="col-2">💰</p>
+                                            <div class="col-10">
+                                                <div class="progress">
+                                                    <div class="progress-bar si_text bg-warning" role="progressbar" style="width: 75%"
+                                                        aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" id="others2_econSI_final">75
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Environment Index -->
+                                        <div class="row align-items-center">
+                                            <p class="col-2">🌳</p>
+                                            <div class="col-10">
+                                                <div class="progress">
+                                                    <div class="progress-bar si_text bg-success" role="progressbar" style="width: 70%"
+                                                        aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" id="others2_envSI_final">70
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Society Index -->
+                                        <div class="row align-items-center">
+                                            <p class="col-2">👪</p>
+                                            <div class="col-10">
+                                                <div class="progress">
+                                                    <div class="progress-bar si_text bg-danger" role="progressbar" style="width: 70%"
+                                                        aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" id="others2_socSI_final">70
+                                                        </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <!-- Player 4 -->
+                                    <div class="col-sm">
+                                        <!-- Economy Index -->
+                                        <div class="row align-items-center">
+                                            <p class="col-2">💰</p>
+                                            <div class="col-10">
+                                                <div class="progress">
+                                                    <div class="progress-bar si_text bg-warning" role="progressbar" style="width: 75%"
+                                                        aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" id="others3_econSI_final">75
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Environment Index -->
+                                        <div class="row align-items-center">
+                                            <p class="col-2">🌳</p>
+                                            <div class="col-10">
+                                                <div class="progress">
+                                                    <div class="progress-bar si_text bg-success" role="progressbar" style="width: 70%"
+                                                        aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" id="others3_envSI_final">70
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Society Index -->
+                                        <div class="row align-items-center">
+                                            <p class="col-2">👪</p>
+                                            <div class="col-10">
+                                                <div class="progress">
+                                                    <div class="progress-bar si_text bg-danger" role="progressbar" style="width: 70%"
+                                                        aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" id="others3_socSI_final">70
+                                                        </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+
+            
+        </div>
+    </div>
+
+    <!-- Game Screen -->
+    <div id='mainscreenbg'>
+
+        <div class="padspace">
+
+            <div class="card-group m-2">
+                <div class="card text-white" style="background-color:rgb(20, 20, 20);">
+                    <!-- Game Screen window-->
+                    <h5 class="card-header title_text">Game screen</h5>
+                    <div class="card-body d-flex flex-column" style="height:40vh;">
+                        <pre id='screen_text' style="font-size: large;"></pre>
+                        <nav id="yourDivID">
+                            <ul id="messages" class="list">
+                                
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+
+                <!-- Sustainable Index window-->
+                <div class="card text-center col-sm-4 text-white" style="background-color:rgb(20, 20, 20);">
+                    <div class="row">
+                        <div class="col-11">
+                            <h5 class="card-header title_text">
+                                Sustainable Index
+                            </h5>
+                        </div>
+                        <div class="col-1">
+                            <button type="button" class="btn btn-outline-dark btn-sm" style="margin-right: 10px;"
+                            onclick=launchLastScreen()>X</button>
+                        </div>
+
+                    </div>
+
+                    <!-- Game Status -->
+                    <div class="card-body">
+                        <!-- Economy Index -->
+                        <div class="row align-items-center">
+                            <h4 class="col-2">💰</h4>
+                            <div class="col-10">
+                                <div class="progress">
+                                    <div class="progress-bar si_text bg-warning" role="progressbar" style="width: 75%"
+                                        aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" id="p1_econSI">75
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Environment Index -->
+                        <div class="row align-items-center">
+                            <h4 class="col-2">🌳</h4>
+                            <div class="col-10">
+                                <div class="progress">
+                                    <div class="progress-bar si_text bg-success" role="progressbar" style="width: 70%"
+                                        aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" id="p1_envSI">70
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Society Index -->
+                        <div class="row align-items-center">
+                            <h4 class="col-2">👪</h4>
+                            <div class="col-10">
+                                <div class="progress">
+                                    <div class="progress-bar si_text bg-danger" role="progressbar" style="width: 70%"
+                                        aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" id="p1_socSI">
+                                        70</div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Money -->
+                        <br>
+                        <div class="row">
+                            <h5 class="col-2">💴</h5>
+                            <div class="col-10">
+                                <h5 class="title_text"><span id="p1_moneyI">3000</span> credit(s)</h5>
+                            </div>
+                        </div>
+
+                        <!-- Countdown Timer -->
+                        <div>
+                            <h5 id="timer"><span id="timer_minutes"></span>:<span id="timer_seconds"></span></h5>
+                        </div>
+
+                        
+                        <!-- Other Player Status -->
+                        <div class="card-body">
+                            <div class="container">
+                                <div class="row">
+                                    <p class="normal_text">P1</p>
+                                    <!-- Player 2 -->
+                                    <div class="col-sm">
+                                        <!-- Economy Index -->
+                                        <div class="row align-items-center">
+                                            <h4 class="col-2"></h4>
+                                            <div class="col-10">
+                                                <div class="progress" style="height: 6px;">
+                                                    <div class="progress-bar si_text bg-warning" role="progressbar" style="width: 75%"
+                                                        aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" id="others1_econSI">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Environment Index -->
+                                        <div class="row align-items-center">
+                                            <h4 class="col-2"></h4>
+                                            <div class="col-10">
+                                                <div class="progress" style="height: 6px;">
+                                                    <div class="progress-bar si_text bg-success" role="progressbar" style="width: 70%"
+                                                        aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" id="others1_envSI">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Society Index -->
+                                        <div class="row align-items-center">
+                                            <h4 class="col-2"></h4>
+                                            <div class="col-10">
+                                                <div class="progress" style="height: 6px;">
+                                                    <div class="progress-bar si_text bg-danger" role="progressbar" style="width: 70%"
+                                                        aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" id="others1_socSI">
+                                                        </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p class="normal_text">P2</p>
+                                    <!-- Player 3 -->
+                                    <div class="col-sm">
+                                        <!-- Economy Index -->
+                                        <div class="row align-items-center">
+                                            <h4 class="col-2"></h4>
+                                            <div class="col-10">
+                                                <div class="progress" style="height: 6px;">
+                                                    <div class="progress-bar si_text bg-warning" role="progressbar" style="width: 75%"
+                                                        aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" id="others2_econSI">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Environment Index -->
+                                        <div class="row align-items-center">
+                                            <h4 class="col-2"></h4>
+                                            <div class="col-10">
+                                                <div class="progress" style="height: 6px;">
+                                                    <div class="progress-bar si_text bg-success" role="progressbar" style="width: 70%"
+                                                        aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" id="others2_envSI">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Society Index -->
+                                        <div class="row align-items-center">
+                                            <h4 class="col-2"></h4>
+                                            <div class="col-10">
+                                                <div class="progress" style="height: 6px;">
+                                                    <div class="progress-bar si_text bg-danger" role="progressbar" style="width: 70%"
+                                                        aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" id="others2_socSI">
+                                                        </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p class="normal_text">P3</p>
+                                    <!-- Player 4 -->
+                                    <div class="col-sm">
+                                        <!-- Economy Index -->
+                                        <div class="row align-items-center">
+                                            <h4 class="col-2"></h4>
+                                            <div class="col-10">
+                                                <div class="progress" style="height: 6px;">
+                                                    <div class="progress-bar si_text bg-warning" role="progressbar" style="width: 75%"
+                                                        aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" id="others3_econSI">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Environment Index -->
+                                        <div class="row align-items-center">
+                                            <h4 class="col-2"></h4>
+                                            <div class="col-10">
+                                                <div class="progress" style="height: 6px;">
+                                                    <div class="progress-bar si_text bg-success" role="progressbar" style="width: 70%"
+                                                        aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" id="others3_envSI">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Society Index -->
+                                        <div class="row align-items-center">
+                                            <h4 class="col-2"></h4>
+                                            <div class="col-10">
+                                                <div class="progress" style="height: 6px;">
+                                                    <div class="progress-bar si_text bg-danger" role="progressbar" style="width: 70%"
+                                                        aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" id="others3_socSI">
+                                                        </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- Investment window -->
+            <div class="card text-white m-2" style="background-color:rgb(20, 20, 20);">
+                <h5 class="card-header title_text">Investments</h5>
+                <div class="card-body">
+                    <!-- Investment List -->
+                    <div ng-app="gameInvestment" ng-controller="gameInvestmentCtrl">
+                        <button id={{investItem.id}} onclick=triggerInvestmentModal(this.id)
+                            ng-repeat="investItem in investmentList" class="btn btn-outline-info m-2 normal_text"
+                            style="border-radius: 25px;">{{investItem.name}}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+
+    <!-- Title -->
+    <div class="vhcenter">
+        <img src="../assets/title.png" alt="title" width="400">
+        <p class='blink' id='start_des'>click on anywhere to start</p>
+    </div>
+
+    <!-- Room Modal -->
+    <div class="modal fade text-center" id="RoomModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+
+                <div class="modal-body">
+                    <ul class="nav nav-tabs nav-fill" id="roomTab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link active normal_text" id="createRoom-tab" data-toggle="tab" href="#createRoom" role="tab" aria-controls="createRoom" aria-selected="true">Create a Room</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link normal_text" id="joinRoom-tab" data-toggle="tab" href="#joinRoom" role="tab" aria-controls="joinRoom" aria-selected="false">Join a Room</a>
+                        </li>
+                    </ul>
+
+                    <br/>
+
+                    <div class="tab-content" id="roomTabContent">
+                        <!-- Create Room Tab Content -->
+                        <div class="tab-pane fade show active" id="createRoom" role="tabpanel" aria-labelledby="createRoom-tab">
+                            <p class="normal_text">Welcome! By creating a room, you will be the host of the game. Get a room code and share it to your friend!</p>
+                            <div id="showCreateCodeContent" class='hidden'>
+                                <h2 class="rainbow_font2"><span id="room_code_display"></span></h2>
+                            </div>
+                            <button type="button" id="getCodeButton" class="btn btn-outline-dark normal_text" onClick=createRoom()>Get A Room Code</button>
+                        </div>
+
+                        <!-- Join Room Tab Content -->
+                        <div class="tab-pane fade" id="joinRoom" role="tabpanel" aria-labelledby="joinRoom-tab">
+                            <p class="normal_text">Got a room code from your friends? Type in the code below and you are ready to play the game!</p>
+                            <div class="padspace">
+                                <label for="fname" class="normal_text">Room code:</label>
+                                <input type="text" id="room">
+                                <button type="button" id="joinButton" class="btn btn-info btn-sm normal_text" onclick=joinRoom()>Join Room</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <br/>
+                    <div class="modal-footer">
+                        <!-- Ready Button -->  
+                        <div id="preReadyContent" class="hidden">
+                            <button type="button" id="readyButton" class="btn btn-danger btn-sm normal_text" onclick=ready()>Get Ready</button>
+                        </div>
+                        <!-- Cancel Button -->
+                        <div id="afterReadyContent" class='hidden'>
+                            <button type="button" class="btn btn-secondary btn-sm normal_text" onclick=notReady()>Cancel Ready</button>
+                            <button type="button" class="btn btn-success btn-sm normal_text" onclick=launchGameScreen() data-dismiss="modal">Play</button>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- How-to-Play Modal -->
+    <div class="modal fade" id="htpModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header title_text">
+                    How-to-Play
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p class="normal_text">Within the time span of 10 minutes, you will compete with other players to become the best sustainable community. 
+                        Each player’s community will be evaluated with “Sustainable Index”, which is your “Health Bar” in the game.  The main components of “Sustainable Index” are “Economy”, “Environment”, and “Society”. In order to improve the indexes and build your community, you will need to make investments throughout the game with “Money”
+                    </p>
+                    <p  class="normal_text">Besides growing your own community, players would need to take account into how the other players doing. This is because some random event could be triggered depends on the overall performance of every player in the game.
+                        Random events will affect the “Sustainable Index” of every player’s community substantially. It might cost you a lot to recover from the bad random events. Likewise, good random events might give you a great boost on indexes.
+                    </p>
+                    <button class="normal_text" data-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="rbottom">
+        <!-- This is a tmp button to trigger game screen, need to be replaced after join room/create room function is done
+        <button onclick=launchGameScreen()>trigger game screen (tmp)</button> -->
+        <!-- Question Mark (How-to-Play) -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor"
+            class="bi bi-question-circle-fill" viewBox="0 0 16 16">
+            <path id="qmark"
+                d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z" />
+        </svg>
+    </div>
+
+</body>
+
+<!-- Investment Details Modal -->
+<div class="modal fade" id="InvestmentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title title_text" id="inv_title"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id='inv_des' class="normal_text"></p>
+                <ul>
+                    <li class="normal_text">Cost: </li>
+                    <ul>
+                        <li class="normal_text">⏰: <span id='cost_time'></span> seconds</li>
+                        <li class="normal_text">💴: <span id='cost_money'></span> credits</li>
+                    </ul>
+                    <br>
+                    <li class="normal_text">Changes in Sustainable Index:</li>
+                    <ul>
+                        <li class="normal_text">💰 +<span id='reward_econ'></span></li>
+                        <li class="normal_text">🌳 +<span id='reward_env'></span></li>
+                        <li class="normal_text">👪 +<span id='reward_society'></span></li>
+                    </ul>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success normal_text" id='invest_button' data-dismiss="modal">Invest!</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="../js/spage.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+</script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+</script>
+
+</html>
